@@ -1,6 +1,6 @@
 import { requireAuth } from "@/lib/server/auth";
 import { apiError, apiOk } from "@/lib/server/http";
-import { prisma } from "@/lib/server/prisma";
+import { prisma } from "@/lib/server/prisma"; 
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
