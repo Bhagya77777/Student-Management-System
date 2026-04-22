@@ -1,0 +1,319 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  student
+  parent
+  lecturer
+  admin
+}
+
+enum UserStatus {
+  active
+  inactive
+}
+
+enum LeaveType {
+  medical
+  personal
+  academic
+  emergency
+}
+
+enum LeaveStatus {
+  pending
+  approved
+  rejected
+}
+
+enum NoticeCategory {
+  exam
+  event
+  general
+  deadline
+}
+
+enum NoticePriority {
+  high
+  medium
+  low
+}
+
+enum NoticeStatus {
+  draft
+  published
+  archived
+}
+
+enum PaymentCategory {
+  tuition
+  exam
+  repeat
+  library
+  sports
+  other
+}
+
+enum PaymentStatus {
+  pending
+  completed
+  failed
+  refunded
+}
+
+enum PollStatus {
+  active
+  completed
+}
+
+enum ScheduleStatus {
+  scheduled
+  postponed
+}
+
+model User {
+  id            String            @id @default(cuid())
+  email         String            @unique
+  passwordHash  String
+  name          String
+  role          Role
+  phone         String?
+  address       String?
+  bio           String?
+  avatar        String?
+  joinDate      DateTime          @default(now())
+  status        UserStatus        @default(active)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  studentProfile  StudentProfile?
+  parentProfile   ParentProfile?
+  lecturerProfile LecturerProfile?
+  adminProfile    AdminProfile?
+  createdNotices  Notice[]
+  createdPolls    Poll[]
+  chatConversations ChatConversation[]
+}
+
+model ChatConversation {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  ChatMessage[]
+
+  @@index([userId])
+}
+
+model ChatMessage {
+  id             String   @id @default(cuid())
+  conversationId String
+  role           String   // "user" or "assistant"
+  content        String
+  createdAt      DateTime @default(now())
+
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+}
+
+
+model StudentProfile {
+  id              Int                @id @default(autoincrement())
+  userId           String             @unique
+  studentCode      String             @unique
+  batch            String
+  department       String?
+  gpa              Float              @default(0)
+  credits          Int                @default(0)
+  totalCredits     Int                @default(120)
+  advisor          String?
+
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attendance       AttendanceRecord[]
+  marks            MarkRecord[]
+  leaves           LeaveRequest[]
+  linkedParents    ParentProfile[]
+  payments         Payment[]
+}
+
+model ParentProfile {
+  id               Int            @id @default(autoincrement())
+  userId            String         @unique
+  relation          String?
+  childStudentCode  String
+
+  user              User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  childStudent      StudentProfile @relation(fields: [childStudentCode], references: [studentCode], onDelete: Restrict)
+}
+
+model LecturerProfile {
+  id            Int      @id @default(autoincrement())
+  userId         String   @unique
+  employeeCode   String   @unique
+  department     String
+  position       String
+  qualification  String
+  specialization String
+  office         String?
+  officeHours    String?
+
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  schedules      Schedule[]
+}
+
+model AdminProfile {
+  id            Int      @id @default(autoincrement())
+  userId         String   @unique
+  employeeCode   String   @unique
+  department     String
+  position       String
+
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model LeaveRequest {
+  id               String      @id @default(cuid())
+  studentProfileId Int
+  leaveType        LeaveType
+  startDate        String
+  endDate          String
+  reason           String
+  documentName     String?
+  status           LeaveStatus @default(pending)
+  decisionNote     String?
+  appliedAt        DateTime    @default(now())
+  decidedAt        DateTime?
+
+  student          StudentProfile @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
+
+  @@index([studentProfileId, startDate, endDate])
+}
+
+model Notice {
+  id              String         @id @default(cuid())
+  title           String
+  content         String
+  category        NoticeCategory
+  priority        NoticePriority
+  targetAudience  String[]
+  videoUrl        String?
+  voiceUrl        String?
+  status          NoticeStatus   @default(draft)
+  publishedAt     DateTime?
+  expiresAt       String?
+  createdById     String?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  createdBy       User?          @relation(fields: [createdById], references: [id], onDelete: SetNull)
+}
+
+model AttendanceRecord {
+  id               String   @id @default(cuid())
+  studentProfileId Int
+  date             String
+  present          Boolean
+  createdAt        DateTime @default(now())
+
+  student          StudentProfile @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
+
+  @@index([studentProfileId, date])
+  @@unique([studentProfileId, date])
+}
+
+model MarkRecord {
+  id               String   @id @default(cuid())
+  studentProfileId Int
+  subject          String
+  assessment       String
+  score            Float
+  maxScore         Float    @default(100)
+  examDate         String
+  createdAt        DateTime @default(now())
+
+  student          StudentProfile @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
+
+  @@index([studentProfileId, examDate])
+  @@index([studentProfileId, subject, assessment])
+}
+
+model Payment {
+  id               String         @id @default(cuid())
+  studentProfileId Int
+  category         PaymentCategory
+  name             String
+  description      String?
+  amount           Int
+  dueDate          String?
+  paidDate         String?
+  status           PaymentStatus  @default(pending)
+  method           String?
+  receiptNumber    String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  student          StudentProfile @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
+
+  @@index([studentProfileId, status])
+}
+
+model Poll {
+  id              String      @id @default(cuid())
+  title           String
+  description     String?
+  totalVotes      Int         @default(0)
+  status          PollStatus  @default(active)
+  startDate       String
+  endDate         String
+  targetAudience  String[]
+  createdById     String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  createdBy       User?       @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  options         PollOption[]
+
+  @@index([status, startDate, endDate])
+}
+
+model PollOption {
+  id            String   @id @default(cuid())
+  pollId        String
+  text          String
+  votes         Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  poll          Poll     @relation(fields: [pollId], references: [id], onDelete: Cascade)
+
+  @@index([pollId])
+}
+
+
+model Schedule {
+  id                String         @id @default(cuid())
+  lecturerProfileId Int
+  date              String
+  timeSlot          String
+  course            String
+  courseCode        String
+  room              String
+  students          Int            @default(0)
+  status            ScheduleStatus @default(scheduled)
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  lecturer          LecturerProfile @relation(fields: [lecturerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([lecturerProfileId, date])
+  @@index([date, timeSlot])
+}
