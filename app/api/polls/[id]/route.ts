@@ -1,7 +1,7 @@
 import { requireAuth } from "@/lib/server/auth";
 import { apiError, apiOk } from "@/lib/server/http";
 import { prisma } from "@/lib/server/prisma";
-
+ 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const currentUser = await requireAuth();
