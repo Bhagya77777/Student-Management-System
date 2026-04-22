@@ -13,7 +13,7 @@ import { PieChart, Plus, Trash2, CheckCircle, Clock, X, PlusCircle, MinusCircle,
 import { motion, AnimatePresence } from "framer-motion";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
-type PollOption = { id: string; text: string; votes: number };
+type PollOption = { id: string; text: string; votes: number }; 
 type Poll = {
   id: string;
   title: string;
