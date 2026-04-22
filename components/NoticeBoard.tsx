@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Bell, Check, X } from 'lucide-react';
 import { Video, Mic } from 'lucide-react';
 import { normalizeNoticeAudience, formatNoticeAudienceLabel, noticeTargetsRole } from '@/lib/notice-utils';
-
+ 
 interface Notice {
   id: string;
   title: string;
