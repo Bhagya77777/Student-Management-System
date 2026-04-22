@@ -4,7 +4,7 @@ import { prisma } from "@/lib/server/prisma";
 import { normalizeNoticeAudience } from "@/lib/notice-utils";
 import { parseNoticeInput } from "@/lib/server/notice-media";
 
-export const runtime = "nodejs";
+export const runtime = "nodejs"; 
 
 function mapNotice(notice: {
   id: string;
