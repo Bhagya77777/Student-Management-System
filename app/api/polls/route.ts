@@ -1,7 +1,7 @@
 import { requireAuth } from "@/lib/server/auth";
 import { apiError, apiOk } from "@/lib/server/http";
 import { prisma } from "@/lib/server/prisma";
-
+ 
 function mapPoll(poll: {
   id: string;
   title: string;
