@@ -14,7 +14,7 @@ import { Plus, Send, Trash2, Loader2, Video, Mic } from "lucide-react";
 import { format } from "date-fns";
 import { formatNoticeAudienceLabel } from "@/lib/notice-utils";
 
-type Notice = {
+type Notice = { 
   id: string;
   title: string;
   content: string;
