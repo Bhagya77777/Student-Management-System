@@ -58,6 +58,8 @@ async function getStudentDataForUser(user: Awaited<ReturnType<typeof requireAuth
   return null;
 }
 
+//update route.ts for role-based.
+
 function buildComprehensiveContext(studentData: NonNullable<Awaited<ReturnType<typeof getStudentDataForUser>>>, role: string) {
   const attendanceTotal = studentData.attendance.length;
   const attendancePresent = studentData.attendance.filter((row) => row.present).length;
