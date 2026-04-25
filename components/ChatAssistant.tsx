@@ -67,6 +67,8 @@ export function ChatAssistant() {
     );
   }
 
+  //build role-based.
+
   return (
     <Card className="fixed bottom-6 right-6 w-96 max-h-96 shadow-xl flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between pb-3">
