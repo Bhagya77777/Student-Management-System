@@ -362,6 +362,8 @@ export default function ParentChatPage() {
     }
   };
 
+//add parent chatbot ui.
+
   const handleQuickAction = (action: string) => {
     let message = "";
     switch (action) {
