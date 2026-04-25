@@ -251,3 +251,4 @@ export function ChatAssistantV2() {
     </>
   );
 }
+//add version 2 with data visualization and quick actions.
