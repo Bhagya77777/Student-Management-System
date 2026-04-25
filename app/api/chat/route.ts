@@ -125,6 +125,8 @@ function buildComprehensiveContext(studentData: NonNullable<Awaited<ReturnType<t
     }))
   };
 
+  //add role-based parent and student.
+
   return {
     role,
     studentName: studentData.user.name,
