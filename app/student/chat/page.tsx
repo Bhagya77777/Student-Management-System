@@ -240,6 +240,8 @@ export default function StudentChatPage() {
       }
     };
 
+    //add student chat assistant.
+
     const fetchStudentData = async () => {
       try {
         const [attendanceRes, marksRes, leaveRes] = await Promise.all([
