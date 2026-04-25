@@ -48,6 +48,8 @@ interface Message {
   quickActions?: QuickAction[];
 }
 
+//implement student chatbot.
+
 interface QuickAction {
   label: string;
   action: string;
