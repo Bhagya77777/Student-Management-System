@@ -302,7 +302,7 @@ export default function StudentChatPage() {
       setShowIntroduction(false);
     }
 
-    // Add user message
+    // add user message.
     const userMessage: Message = {
       id: Date.now().toString(),
       type: "user",
