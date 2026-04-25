@@ -42,7 +42,7 @@ export function ChatAssistant() {
     setInput('');
     setIsLoading(true);
 
-    // Simulate assistant response
+    // Simulate assistant response (replace with actual API call in the future).
     setTimeout(() => {
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
