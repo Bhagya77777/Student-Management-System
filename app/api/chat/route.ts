@@ -9,6 +9,8 @@ interface ChatRequest {
   history?: Array<{ role: "user" | "assistant"; content: string }>;
 }
 
+//update route.ts. 
+
 interface ChatContext {
   studentName: string;
   attendanceRate: number;
