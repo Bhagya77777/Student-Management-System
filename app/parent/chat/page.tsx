@@ -219,6 +219,8 @@ export default function ParentChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  //implement parent chat.
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
