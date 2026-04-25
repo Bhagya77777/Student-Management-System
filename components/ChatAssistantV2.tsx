@@ -105,7 +105,7 @@ export function ChatAssistantV2() {
       setIsTyping(false);
     }
   };
-
+// implement ChatAssistantV2 with data.
   const handleQuickAction = (action: string) => {
     setInput(action);
   };
