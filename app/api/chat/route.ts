@@ -206,6 +206,8 @@ INSTRUCTIONS:
 Current date: ${new Date().toLocaleDateString()}`;
 }
 
+// add new instructions.
+
 async function callOpenRouter(
   messages: Array<{ role: string; content: string }>,
   retries = 3
