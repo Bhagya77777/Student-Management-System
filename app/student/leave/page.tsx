@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar } from "@/components/ui/calendar";
 import { useAuth } from "@/contexts/AuthContext";
 import { AlertCircle, CalendarDays, CheckCircle, Clock, Send } from "lucide-react";
-
+ 
 type Leave = {
   id: string;
   type: string;

@@ -12,7 +12,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { AlertCircle, Check, CheckCircle, Clock, X } from "lucide-react";
 import { ChatAssistantV2 } from "@/components/ChatAssistantV2";
 import { useAuth } from "@/contexts/AuthContext";
-
+ 
 type LeaveItem = {
   id: string;
   studentName: string;

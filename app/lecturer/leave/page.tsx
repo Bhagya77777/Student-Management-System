@@ -12,7 +12,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { AlertCircle, CheckCircle, Clock, FileText, Loader2, XCircle, Calendar as CalendarIcon } from "lucide-react";
 import { format, isWithinInterval, parseISO } from "date-fns";
 import { useAuth } from "@/contexts/AuthContext";
-
+ 
 type LeaveItem = {
   id: string;
   studentName: string;
